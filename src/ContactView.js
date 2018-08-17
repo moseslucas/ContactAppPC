@@ -8,9 +8,11 @@ import {
   CardItem,
   Button
 } from 'native-base'
+
 import { phonecall, text } from 'react-native-communications'
 
-export default class ContactView extends Component {
+class ContactView extends Component {
+  
   tawag (mobile) {
     phonecall(mobile, false)
   }
@@ -19,36 +21,37 @@ export default class ContactView extends Component {
     text(mobile, false)
   }
 
+
   render() {
-    const { contact } = this.props.navigation.state.params
     return (
       <Container>
         <Content padder>
           <Card>
             <CardItem bordered header>
-              <Text> {contact.name} </Text>
+              <Text> {this.props.navigation.state.params.contact.name} </Text>
             </CardItem>
             <CardItem bordered>
-              <Text> {contact.email} </Text>
+              <Text> {this.props.navigation.state.params.contact.mobile} </Text>
             </CardItem>
             <CardItem bordered>
-              <Text> {contact.mobile} </Text>
+              <Text> {this.props.navigation.state.params.contact.email} </Text>
             </CardItem>
             <CardItem bordered>
-              <Text> {contact.description} </Text>
+              <Text> {this.props.navigation.state.params.contact.company} </Text>
             </CardItem>
           </Card>
+
+          <Button full primary onPress={ () => { this.tawag(this.props.navigation.state.params.contact.mobile)  }  }>
+            <Text> CALL </Text>
+          </Button>
+          <Button full success onPress={ () => { this.mensahe(this.props.navigation.state.params.contact.mobile)  }  }>
+            <Text> SMS </Text>
+          </Button>
+
         </Content>
-        <Button full info onPress={ () => { this.tawag(contact.mobile) }  }>
-          <Text> CALL </Text>
-        </Button>
-        <Button full success onPress={ () => { this.mensahe(contact.mobile) }  } >
-          <Text> SMS </Text>
-        </Button>
-        <Button full danger>
-          <Text> DELETE </Text>
-        </Button>
       </Container>
     );
   }
 }
+
+export default ContactView
